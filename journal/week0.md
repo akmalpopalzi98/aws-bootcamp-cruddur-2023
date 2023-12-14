@@ -48,7 +48,7 @@ In summary, this configuration sets up a task named "aws-cli" that installs the 
 aws budgets create-budget \
     --account-id 481777894112 \
     --budget file://aws/json/budget.json \
-    --notifications-with-subscribers file://aws/json/budget-notifications.json
+    --notifications-with-subscribers file://aws/json/budget-notifications-with-subscribers.json
 
 
 
