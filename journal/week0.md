@@ -43,3 +43,12 @@ In summary, this configuration sets up a task named "aws-cli" that installs the 
 
 
 ## An AWS budget was also created to manage cost and to alert the user whenever costs exceed a certain threshold
+
+
+aws budgets create-budget \
+    --account-id 481777894112 \
+    --budget file://aws/json/budget.json \
+    --notifications-with-subscribers file://aws/json/budget-notifications.json
+
+
+
