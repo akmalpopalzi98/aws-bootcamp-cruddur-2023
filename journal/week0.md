@@ -51,4 +51,16 @@ aws budgets create-budget \
     --notifications-with-subscribers file://aws/json/budget-notifications-with-subscribers.json
 
 
+## AWS SNS created to send notifications to endpoints
 
+aws sns create-topic --name billing-alarm
+
+
+aws sns subscribe \
+    --topic-arn="arn:aws:sns:us-east-1:481777894112:billing-alarm" \
+    --protocol=email \
+    --notification-endpoint=akmalpopalzi.eng@gmail.com
+
+## AWS Alarm
+
+aws cloudwatch put-metric-alarm --cli-input-json file://aws/json/alarm_config.json
