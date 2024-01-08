@@ -1,3 +1,4 @@
+aws-xray-sdk
 flask
 flask-cors
 opentelemetry-api 
