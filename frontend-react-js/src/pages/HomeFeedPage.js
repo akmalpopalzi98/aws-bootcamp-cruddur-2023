@@ -9,7 +9,7 @@ import ReplyForm from '../components/ReplyForm';
 
 // [TODO] Authenication
 import Cookies from 'js-cookie'
-import { Auth } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 
 
@@ -39,7 +39,7 @@ export default function HomeFeedPage() {
   };
 
   const checkAuth = async () => {
-    await Auth.currentAuthenticatedUser({
+    await getCurrentUser({
       // Optional, By default is false. 
       // If set to true, this call will send a 
       // request to Cognito to get the latest user data
@@ -47,11 +47,12 @@ export default function HomeFeedPage() {
     })
     .then((user) => {
       console.log('user',user);
-      return Auth.currentAuthenticatedUser()
+      console.log(localStorage.getItem("access_token"))
+      return getCurrentUser()
     }).then((cognito_user) => {
         setUser({
-          display_name: cognito_user.attributes.name,
-          handle: cognito_user.attributes.preferred_username
+          display_name: cognito_user.username,
+          handle: cognito_user.userId
         })
     })
     .catch((err) => console.log(err));

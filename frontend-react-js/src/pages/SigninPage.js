@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 // [TODO] Authenication
 
-import {signIn} from 'aws-amplify/auth'
+import {signIn, fetchAuthSession} from 'aws-amplify/auth'
 
 export default function SigninPage() {
 
@@ -16,14 +16,15 @@ export default function SigninPage() {
   const onsubmit = async (event) => {
     setErrors('')
     event.preventDefault();
-    console.log(username)
     try {
-      await signIn({username, password})
-        .then(user => {
-          localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
-          window.location.href = "/"
-        })
-        .catch(err => { console.log('Error!', err) });
+      const user = await signIn({ username, password });
+    
+      if (user.isSignedIn) {
+        window.location.href = "/";
+        const obj = await fetchAuthSession()
+        localStorage.setItem("access_token",obj.tokens.idToken.payload.sub)
+      console.log(obj)}
+    
     } catch (error) {
       if (error.code == 'UserNotConfirmedException') {
         window.location.href = "/confirm"
