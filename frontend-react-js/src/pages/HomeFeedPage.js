@@ -8,7 +8,6 @@ import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
 // [TODO] Authenication
-import Cookies from 'js-cookie'
 import { getCurrentUser } from 'aws-amplify/auth';
 
 
@@ -52,7 +51,7 @@ export default function HomeFeedPage() {
     }).then((cognito_user) => {
         setUser({
           display_name: cognito_user.username,
-          handle: cognito_user.userId
+          handle: "handle"
         })
     })
     .catch((err) => console.log(err));
