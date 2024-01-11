@@ -7,8 +7,8 @@ import {ReactComponent as Logo} from '../components/svg/logo.svg';
 import { confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
 export default function ConfirmationPage() {
-  const [email, setEmail] = React.useState('');
-  const [code, setCode] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [confirmationCode, setCode] = React.useState('');
   const [errors, setErrors] = React.useState('');
   const [codeSent, setCodeSent] = React.useState(false);
 
@@ -18,14 +18,15 @@ export default function ConfirmationPage() {
     setCode(event.target.value);
   }
   const email_onchange = (event) => {
-    setEmail(event.target.value);
+    setUsername(event.target.value);
   }
 
   const resend_code = async (event) => {
-    setCognitoErrors('')
+    setErrors('')
     try {
-      await resendSignUpCode(email);
+      await resendSignUpCode({username});
       console.log('code resent successfully');
+     
       setCodeSent(true)
     } catch (err) {
       // does not return a code
@@ -44,7 +45,7 @@ export default function ConfirmationPage() {
     event.preventDefault();
     setErrors('')
     try {
-      await confirmSignUp(email, code);
+      await confirmSignUp({username, confirmationCode});
       window.location.href = "/"
     } catch (error) {
       setErrors(error.message)
@@ -87,7 +88,7 @@ export default function ConfirmationPage() {
               <label>Email</label>
               <input
                 type="text"
-                value={email}
+                value={username}
                 onChange={email_onchange} 
               />
             </div>
@@ -95,7 +96,7 @@ export default function ConfirmationPage() {
               <label>Confirmation Code</label>
               <input
                 type="text"
-                value={code}
+                value={confirmationCode}
                 onChange={code_onchange} 
               />
             </div>

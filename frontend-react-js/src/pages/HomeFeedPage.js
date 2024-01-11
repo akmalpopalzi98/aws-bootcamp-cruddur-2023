@@ -8,7 +8,7 @@ import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
 // [TODO] Authenication
-import { getCurrentUser } from 'aws-amplify/auth';
+import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
 
 
 
@@ -47,11 +47,11 @@ export default function HomeFeedPage() {
     .then((user) => {
       console.log('user',user);
       console.log(localStorage.getItem("access_token"))
-      return getCurrentUser()
+      return fetchUserAttributes()
     }).then((cognito_user) => {
         setUser({
-          display_name: cognito_user.username,
-          handle: "handle"
+          display_name: cognito_user.name,
+          handle: cognito_user.preferred_username
         })
     })
     .catch((err) => console.log(err));

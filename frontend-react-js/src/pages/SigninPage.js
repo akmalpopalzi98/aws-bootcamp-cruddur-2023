@@ -17,17 +17,18 @@ export default function SigninPage() {
     setErrors('')
     event.preventDefault();
     try {
-      const user = await signIn({ username, password });
-    
-      if (user.isSignedIn) {
+      const {isSignedIn,nextStep} = await signIn({ username, password });
+      if (isSignedIn && nextStep.signInStep == 'DONE') {
         window.location.href = "/";
         const obj = await fetchAuthSession()
         localStorage.setItem("access_token",obj.tokens.idToken.payload.sub)
       console.log(obj)}
-    
-    } catch (error) {
-      if (error.code == 'UserNotConfirmedException') {
+      if (nextStep.signInStep == 'CONFIRM_SIGN_UP'){
         window.location.href = "/confirm"
+      }
+    } catch (error) {
+      if (error) {
+        console.log(error)
       }
       setErrors(error.message)
     }

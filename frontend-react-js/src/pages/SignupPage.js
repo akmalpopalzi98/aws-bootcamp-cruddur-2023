@@ -30,7 +30,7 @@ export default function SignupPage() {
         },
       });
       console.log(user);
-      // window.location.href = `/confirm?email=${email}`
+      window.location.href = `/confirm?email=${email}`
     } catch (err) {
       console.log(err);
       setErrors(err.message || err);
