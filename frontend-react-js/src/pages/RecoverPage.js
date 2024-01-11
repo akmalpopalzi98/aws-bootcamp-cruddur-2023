@@ -2,24 +2,49 @@ import './RecoverPage.css';
 import React from "react";
 import {ReactComponent as Logo} from '../components/svg/logo.svg';
 import { Link } from "react-router-dom";
+import { resetPassword,confirmResetPassword } from 'aws-amplify/auth';
 
 export default function RecoverPage() {
   // Username is Eamil
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordAgain, setPasswordAgain] = React.useState('');
-  const [code, setCode] = React.useState('');
+  const [confirmationCode, setCode] = React.useState('');
   const [errors, setErrors] = React.useState('');
   const [formState, setFormState] = React.useState('send_code');
 
   const onsubmit_send_code = async (event) => {
     event.preventDefault();
-    console.log('onsubmit_send_code')
-    return false
+    setErrors("");
+  
+    try {
+      await resetPassword({ username });
+      setFormState("confirm_code");
+    } catch (err) {
+      console.error(err);
+      setErrors(err.message || "An error occurred.");
+    }
+  
+    return false;
   }
   const onsubmit_confirm_code = async (event) => {
     event.preventDefault();
-    console.log('onsubmit_confirm_code')
+    setErrors("")
+    const newPassword = password
+    try{
+      if(password == passwordAgain){
+        await confirmResetPassword({username,confirmationCode,newPassword})
+        setFormState("Success")
+      }
+    else{
+      setErrors("Passwords do not match")
+    }
+    }
+    catch (err){
+      console.log(err)
+      setErrors(err)
+    }
+
     return false
   }
 
@@ -77,7 +102,7 @@ export default function RecoverPage() {
           <label>Reset Password Code</label>
           <input
             type="text"
-            value={code}
+            value={confirmationCode}
             onChange={code_onchange} 
           />
         </div>
