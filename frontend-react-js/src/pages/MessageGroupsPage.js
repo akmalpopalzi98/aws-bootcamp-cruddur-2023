@@ -5,7 +5,7 @@ import DesktopNavigation  from '../components/DesktopNavigation';
 import MessageGroupFeed from '../components/MessageGroupFeed';
 
 // [TODO] Authenication
-import Cookies from 'js-cookie'
+import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
 
 export default function MessageGroupsPage() {
   const [messageGroups, setMessageGroups] = React.useState([]);
@@ -31,14 +31,23 @@ export default function MessageGroupsPage() {
   };  
 
   const checkAuth = async () => {
-    console.log('checkAuth')
-    // [TODO] Authenication
-    if (Cookies.get('user.logged_in')) {
-      setUser({
-        display_name: Cookies.get('user.name'),
-        handle: Cookies.get('user.username')
-      })
-    }
+    await getCurrentUser({
+      // Optional, By default is false. 
+      // If set to true, this call will send a 
+      // request to Cognito to get the latest user data
+      bypassCache: false 
+    })
+    .then((user) => {
+      console.log('user',user);
+      console.log(localStorage.getItem("access_token"))
+      return fetchUserAttributes()
+    }).then((cognito_user) => {
+        setUser({
+          display_name: cognito_user.name,
+          handle: cognito_user.preferred_username
+        })
+    })
+    .catch((err) => console.log(err));
   };
 
   React.useEffect(()=>{

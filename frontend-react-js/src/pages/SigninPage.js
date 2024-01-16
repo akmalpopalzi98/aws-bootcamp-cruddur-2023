@@ -22,7 +22,7 @@ export default function SigninPage() {
         window.location.href = "/";
         const obj = await fetchAuthSession()
         localStorage.setItem("access_token",obj.tokens.idToken.payload.sub)
-      console.log(obj)}
+      console.log(obj.tokens)}
       if (nextStep.signInStep == 'CONFIRM_SIGN_UP'){
         window.location.href = "/confirm"
       }
