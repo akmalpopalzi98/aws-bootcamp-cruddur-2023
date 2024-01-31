@@ -1,3 +1,5 @@
+#! /usr/bin/bash
+
 set -e
 
 if [ '$1' = 'prod' ]; then
@@ -6,4 +8,5 @@ else
     ENDPOINT_URL='--endpoint-url=http://localhost:8000'
 fi
 
-aws dynamodb delete-table $ENDPOINT_URL --table-name "cruddur-message"
+aws dynamodb list-tables $ENDPOINT_URL --query TableNames --output table
+
