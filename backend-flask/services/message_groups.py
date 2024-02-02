@@ -23,3 +23,4 @@ class MessageGroups:
 
     model['data'] = data
     return model
+    # return my_user_uuid

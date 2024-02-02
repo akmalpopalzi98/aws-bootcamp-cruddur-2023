@@ -81,6 +81,7 @@ def data_message_groups(sub):
     return model['errors'], 422
   else:
     return model['data'], 200
+ 
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
