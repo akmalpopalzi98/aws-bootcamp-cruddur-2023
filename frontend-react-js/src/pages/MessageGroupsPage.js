@@ -12,19 +12,22 @@ export default function MessageGroupsPage() {
   const [popped, setPopped] = React.useState([]);
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
+  const sub = localStorage.getItem("access_token")
 
   const loadData = async () => {
     try {
-      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
+      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups/${sub}`
       const res = await fetch(backend_url, {
         method: "GET"
       });
+
       let resJson = await res.json();
-      if (res.status === 200) {
-        setMessageGroups(resJson)
-      } else {
-        console.log(res)
-      }
+      console.log(resJson)
+      // if (res.status === 200) {
+      //   setMessageGroups(resJson)
+      // } else {
+      //   console.log(res)
+      // }
     } catch (err) {
       console.log(err);
     }

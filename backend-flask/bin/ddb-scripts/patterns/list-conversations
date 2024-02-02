@@ -16,7 +16,7 @@ dynamodb = boto3.client('dynamodb',**attrs)
 table_name = 'cruddur-message'
 
 
-brown_user_uuid = "1ee8c80b-54f2-46c2-b40d-ccd305a397dc"
+brown_user_uuid = "97daaf0c-fcc5-41b9-b39a-ca8996c9ac6c"
 
 # define the query parameters
 query_params = {
