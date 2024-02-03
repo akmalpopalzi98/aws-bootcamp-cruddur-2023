@@ -73,14 +73,15 @@ cors = CORS(
 #     return response
 
 
-@app.route("/api/message_groups", methods=['GET'])
-def data_message_groups():
-  user_handle  = 'andrewbrown'
-  model = MessageGroups.run(user_handle=user_handle)
+@app.route("/api/message_groups/<string:sub>", methods=['GET'])
+def data_message_groups(sub):
+  cognito_user_id = sub
+  model = MessageGroups.run(cognito_user_id)
   if model['errors'] is not None:
     return model['errors'], 422
   else:
     return model['data'], 200
+ 
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
