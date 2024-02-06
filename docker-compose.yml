@@ -15,6 +15,7 @@ services:
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
       # CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
       CONNECTION_URL: "${PROD_CONNECTION_URL}"
+      AWS_ACCOUNT_ID: "${AWS_ACCOUNT_ID}"
 
 
     build: ./backend-flask
